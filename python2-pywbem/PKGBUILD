@@ -1,0 +1,22 @@
+pkgname=pywbem
+pkgver=0.8.0rc1
+_version='0.8.0-dev.20151108'
+pkgrel=1
+pkgdesc="Python WBEM Client and Provider Interface"
+arch=('any')
+url='https://github.com/pywbem/pywbem'
+license=('LGPLv2.1+')
+depends=('python2' 'python2-m2crypto')
+source=("https://github.com/pywbem/pywbem/archive/v${_version}.tar.gz")
+sha256sums=('848e8489bab55235a88286c6501c6e47757a0b2e3be5c2e56558a6c3d61764b8')
+options=('!libtool')
+
+build() {
+  cd $srcdir/$pkgname-${_version}/src
+  python2 setup.py build || return 1
+}
+
+package() {
+  cd $srcdir/$pkgname-${_version}/src
+  python2 setup.py install --root=$pkgdir || return 1
+}
