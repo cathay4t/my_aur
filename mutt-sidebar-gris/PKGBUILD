@@ -1,7 +1,7 @@
-# Maintainer: Alessio Sergi <asergi at archlinux dot us>
+# Maintainer: Gris Ge <cnfourt@gmail.com>
+# Contributor: Alessio Sergi <asergi at archlinux dot us>
 # Contributor: tobias [tobias [at] archlinux.org]
 # Contributor: Gaetan Bisson <bisson@archlinux.org>
-# Contributor: Gris Ge <cnfourt@gmail.com>
 
 pkgname=mutt-sidebar-gris
 pkgver=1.5.24
@@ -18,17 +18,14 @@ conflicts=('mutt')
 provides=('mutt')
 source=("http://ftp.mutt.org/pub/mutt/mutt-${pkgver}.tar.gz"
         "http://lunar-linux.org/~tchan/mutt/patch-${pkgver}.sidebar.${_sidebar_ver}.txt"
-        "mutt-1.5.21-pgp_verbose_mime.patch"
         )
 sha256sums=('a292ca765ed7b19db4ac495938a3ef808a16193b7d623d65562bb8feb2b42200'
-            '66441edf056032119f854fc5ee86c73eece8b95dc998c0cfae5ed05b0b035070'
-            '6453030e2f0565734db0a3a42243c748e67fcc338dec7e937074e2f10193c5e3')
+            '66441edf056032119f854fc5ee86c73eece8b95dc998c0cfae5ed05b0b035070')
 
 prepare() {
   cd "$srcdir/mutt-$pkgver"
 
   patch -Np1 -i "${srcdir}/patch-${pkgver}.sidebar.${_sidebar_ver}.txt"
-  patch -Np1 -i "${srcdir}/mutt-1.5.21-pgp_verbose_mime.patch"
 
   # fix automake issue
   autoreconf -vfi
