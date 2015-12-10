@@ -4,8 +4,9 @@
 # Contributor: Gris Ge <cnfourt@gmail.com>
 
 pkgname=mutt-sidebar-gris
-pkgver=1.5.23
+pkgver=1.5.24
 pkgrel=1
+_sidebar_ver=20151111
 pkgdesc='Small but very powerful text-based mail client'
 url='http://www.mutt.org/'
 license=('GPL')
@@ -16,17 +17,17 @@ depends=('gpgme' 'ncurses' 'openssl' 'libsasl' 'gdbm' 'libidn' 'mime-types' 'krb
 conflicts=('mutt')
 provides=('mutt')
 source=("http://ftp.mutt.org/pub/mutt/mutt-${pkgver}.tar.gz"
-        "patch-1.5.23.sidebar.20140412.txt"
+        "http://lunar-linux.org/~tchan/mutt/patch-${pkgver}.sidebar.${_sidebar_ver}.txt"
         "mutt-1.5.21-pgp_verbose_mime.patch"
         )
-sha512sums=('f1b4a7230253651857f61bd7215cce870a613012f613d4c907d401556083726c8ed7d429d57a8bf858c3b5b23683380d4c1494540d86ca80813e22cb6b95bc1e'
-            'ac023f1ba5843a010de497b9cd85b22af6a30ceb8622c01be3c5b7e8e0761d8efe8e86e8c9b11aa96dcc405e8b1657672ec6da111b703d562bddf35ba848d34d'
-            '40178b7ebc77458d8b331d228fef54f4355e8a32e51e50f885686688a019eea3b39803b2a254c00e5147d161e98840dcd2c9358580940b1699ece566bd0b32cc')
+sha256sums=('a292ca765ed7b19db4ac495938a3ef808a16193b7d623d65562bb8feb2b42200'
+            '66441edf056032119f854fc5ee86c73eece8b95dc998c0cfae5ed05b0b035070'
+            '6453030e2f0565734db0a3a42243c748e67fcc338dec7e937074e2f10193c5e3')
 
 prepare() {
   cd "$srcdir/mutt-$pkgver"
 
-  patch -Np1 -i "${srcdir}/patch-1.5.23.sidebar.20140412.txt"
+  patch -Np1 -i "${srcdir}/patch-${pkgver}.sidebar.${_sidebar_ver}.txt"
   patch -Np1 -i "${srcdir}/mutt-1.5.21-pgp_verbose_mime.patch"
 
   # fix automake issue
@@ -34,20 +35,22 @@ prepare() {
 }
 
 build() {
-  cd "$srcdir/mutt-$pkgver"
-  ./configure --prefix=/usr \
-              --sysconfdir=/etc \
-              --enable-gpgme \
-              --enable-pop \
-              --enable-imap \
-              --enable-smtp \
-              --enable-hcache \
-              --with-curses=/usr \
-              --with-regex \
-              --with-gss=/usr \
-              --with-ssl=/usr \
-              --with-sasl \
-              --with-idn
+    cd "$srcdir/mutt-$pkgver"
+    env SENDMAIL=%{_sbindir}/sendmail ISPELL=%{_bindir}/hunspell ./configure \
+        --disable-external-dotlock \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --enable-gpgme \
+        --enable-pop \
+        --enable-imap \
+        --enable-smtp \
+        --enable-hcache \
+        --with-curses=/usr \
+        --with-regex \
+        --with-gss=/usr \
+        --with-ssl=/usr \
+        --with-sasl \
+        --with-idn
   make
 }
 
