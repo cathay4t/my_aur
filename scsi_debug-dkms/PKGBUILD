@@ -1,0 +1,41 @@
+_pkgbase=scsi_debug
+pkgname=scsi_debug-dkms
+pkgver=1.85
+pkgrel=1
+pkgdesc="SCSI debug adapter driver"
+arch=('i686' 'x86_64')
+url="http://sg.danny.cz/sg/sdebug26.html"
+license=('GPL')
+depends=('dkms')
+provides=('scsi_debug-dkms' 'scsi_debug-module')
+conflicts=("scsi_debug-module")
+install=${pkgname}.install
+options=(!strip)
+
+source=("scsi_debug-1.85.tar.xz" "dkms.conf" "scsi_debug-dkms.install")
+
+sha256sums=('b08a61bcebb3408ce29f9d7fa10c8c4290d7bc10bc5bae880e7fc6406b3aea1d'
+            '7025930ab07b690b9b2f4ebe6155e685dc8dd6e7154266becc52e3b3c290a225'
+            '58e8fc13fde1fae553f10094cf4067fac677e967eb3afe2b8e34f8feac6533d8')
+
+package() {
+
+    installDir="$pkgdir/usr/src/${_pkgbase}-${pkgver}"
+
+    install -dm755 "$installDir"
+    install -m644 "$srcdir/dkms.conf" "$installDir"
+
+    sed -e "s/@_PKGBASE@/${_pkgbase}/" \
+        -e "s/@PKGVER@/${pkgver}/" \
+        -i $installDir/dkms.conf
+
+    cd "${srcdir}/"
+
+    install -dm755  "$installDir/${_pkgbase}-${pkgver}"
+
+    for f in ${srcdir}/${_pkgbase}-${pkgver}/*; do
+        install -m644 "$f" "$installDir/$(basename $f)"
+    done
+}
+
+

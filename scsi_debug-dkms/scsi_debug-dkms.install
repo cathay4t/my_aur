@@ -1,0 +1,47 @@
+post_install (){
+    DKMS=$(which dkms)
+
+    $DKMS add -m scsi_debug -v v4.17.3
+    $DKMS build -m scsi_debug -v v4.17.3
+    $DKMS install -m scsi_debug -v v4.17.3
+
+    echo " >> "
+    echo " >> rmmod scsi_debug"
+    rmmod scsi_debug
+    echo " >> depmod -a"
+    depmod -a
+    echo " >> done "
+
+}
+
+pre_upgrade(){
+    pre_remove
+}
+
+post_upgrade(){
+    post_install
+}
+
+pre_remove (){
+    _inmemory=$(/usr/bin/lsmod | /usr/bin/grep scsi_debug)
+    if [ ! -z "$_inmemory" ]; then
+        /usr/bin/rmmod scsi_debug &> /dev/null
+    fi
+
+    DKMS=$(which dkms)
+
+    _line=$($DKMS status -m scsi_debug)
+    if echo "$_line" | grep -E 'added|built|installed'; then
+        version=$(echo "$_line" | sed 's/scsi_debug,\([^,]*\)[,:].*/\1/;t;d')
+        $DKMS remove -m scsi_debug -v $version --all
+    fi
+
+}
+
+post_remove () {
+    /sbin/depmod -a
+}
+
+op=$1
+shift
+$op $*
