@@ -1,6 +1,6 @@
 _pkgbase=scsi_debug
 pkgname=scsi_debug-dkms
-pkgver=1.85
+pkgver=4.5
 pkgrel=1
 pkgdesc="SCSI debug adapter driver"
 arch=('i686' 'x86_64')
@@ -12,11 +12,11 @@ conflicts=("scsi_debug-module")
 install=${pkgname}.install
 options=(!strip)
 
-source=("scsi_debug-1.85.tar.xz" "dkms.conf" "scsi_debug-dkms.install")
+source=("scsi_debug-${pkgver}.tar.xz" "dkms.conf" "scsi_debug-dkms.install")
 
-sha256sums=('b08a61bcebb3408ce29f9d7fa10c8c4290d7bc10bc5bae880e7fc6406b3aea1d'
-            '7025930ab07b690b9b2f4ebe6155e685dc8dd6e7154266becc52e3b3c290a225'
-            '58e8fc13fde1fae553f10094cf4067fac677e967eb3afe2b8e34f8feac6533d8')
+sha256sums=('86feae249b70ca485b6bd957e72778d99bdb6fbdbd5e6b864e6538824336f6c7'
+            '2340f2c62175fe0a9c766ada51882db65e5d1885cee2cd835b816a460c72a938'
+            'e818ed8de07e2197c1eace413eabdc50a43fd8d37c168c761a5fef1c0bd9f84d')
 
 package() {
 
@@ -37,5 +37,3 @@ package() {
         install -m644 "$f" "$installDir/$(basename $f)"
     done
 }
-
-
