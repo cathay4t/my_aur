@@ -1,6 +1,6 @@
 _pkgbase=scsi_debug
 pkgname=scsi_debug-dkms
-pkgver=4.5
+pkgver=4.7
 pkgrel=1
 pkgdesc="SCSI debug adapter driver"
 arch=('i686' 'x86_64')
@@ -13,8 +13,7 @@ install=${pkgname}.install
 options=(!strip)
 
 source=("scsi_debug-${pkgver}.tar.xz" "dkms.conf" "scsi_debug-dkms.install")
-
-sha256sums=('86feae249b70ca485b6bd957e72778d99bdb6fbdbd5e6b864e6538824336f6c7'
+sha256sums=('db8876f4e046fb465ecc9315abd3e4e08893823967a39471c8527c82d1f770cf'
             '2340f2c62175fe0a9c766ada51882db65e5d1885cee2cd835b816a460c72a938'
             'e818ed8de07e2197c1eace413eabdc50a43fd8d37c168c761a5fef1c0bd9f84d')
 
