@@ -1,0 +1,21 @@
+pkgname=python-varlink
+pkgver=30.3.0
+pkgrel=1
+pkgdesc="Python implementation of the Varlink protocol"
+arch=('x86_64')
+url="https://github.com/varlink/python"
+license=('Apache-2.0')
+makedepends=('python-setuptools')
+source=("https://github.com/varlink/python/archive/${pkgver}.tar.gz")
+
+sha256sums=('f4a9b3c113ee366d7d16bfd9d60a5d320e41ab6de7b87d4076c5f6520069ed9f')
+
+build() {
+    cd "${srcdir}/python-${pkgver}"
+    python setup.py build
+}
+
+package() {
+    cd "${srcdir}/python-${pkgver}"
+    python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+}

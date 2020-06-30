@@ -1,9 +1,9 @@
 post_install (){
     DKMS=$(which dkms)
 
-    $DKMS add -m scsi_debug -v 4.9
-    $DKMS build -m scsi_debug -v 4.9
-    $DKMS install -m scsi_debug -v 4.9
+    $DKMS add -m scsi_debug -v 4.15
+    $DKMS build -m scsi_debug -v 4.15
+    $DKMS install -m scsi_debug -v 4.15
 
     echo " >> "
     echo " >> rmmod scsi_debug"
